@@ -1,4 +1,6 @@
+using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StoreContext>(x=>x.UseSqlServer(connStr));
+//builder.Services.AddSingleton<ILoggerFactory,LoggerFactory>();
+
+builder.Services.AddScoped<IProductRepository,ProductRepository>();
 
 var app = builder.Build();
 
@@ -26,5 +31,15 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using(var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<StoreContext>();
+    //var loggerFactory = services.GetRequiredService<LoggerFactory>();
+    await context.Database.MigrateAsync();
+    
+    await StoreContextSeed.SeedAsync(context);
+}
 
 app.Run();
