@@ -1,3 +1,4 @@
+using API.Helpers;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
@@ -16,6 +17,8 @@ builder.Services.AddDbContext<StoreContext>(x=>x.UseSqlServer(connStr));
 //builder.Services.AddSingleton<ILoggerFactory,LoggerFactory>();
 
 builder.Services.AddScoped<IProductRepository,ProductRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
 var app = builder.Build();
 
@@ -28,7 +31,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+
+
 app.UseAuthorization();
+
+app.UseStaticFiles();
 
 app.MapControllers();
 
