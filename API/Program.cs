@@ -1,7 +1,12 @@
+using System.Linq;
+using API.Errors;
+using API.Extentions;
 using API.Helpers;
+using API.Middleware;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,25 +14,57 @@ var builder = WebApplication.CreateBuilder(args);
 string connStr = builder.Configuration.GetConnectionString("DefaultConnection");
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+.ConfigureApiBehaviorOptions(options => 
+{
+    // options.InvalidModelStateResponseFactory = context => 
+    //     new BadRequestObjectResult(context.ModelState.Where(e => e.Value.Errors.Count > 0)
+    //     .SelectMany(x => x.Value.Errors)
+    //     .Select(e => new ValidationErrorResponse{
+    //         Errors = e.ErrorMessage
+    //     }).ToArray());
+
+    options.InvalidModelStateResponseFactory = context => 
+    {
+        var errors = context.ModelState.Where(e => e.Value.Errors.Count > 0)
+            .SelectMany(x => x.Value.Errors).Select(x=>x.ErrorMessage).ToArray();
+
+        var errorResponse = new ValidationErrorResponse
+        {
+            Errors = errors
+        };
+        
+        return new BadRequestObjectResult(errorResponse);
+
+
+
+    };
+    
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StoreContext>(x=>x.UseSqlServer(connStr));
 //builder.Services.AddSingleton<ILoggerFactory,LoggerFactory>();
 
-builder.Services.AddScoped<IProductRepository,ProductRepository>();
-builder.Services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
-builder.Services.AddAutoMapper(typeof(MappingProfiles));
+ builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseSwagger();
+//     app.UseSwaggerUI();
+// }
+
+app.UseMiddleware<ExceptionMiddleware>();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseStatusCodePagesWithRedirects("/Errors/{0}"); // bad request that not handle normally ex: that request which is not found
 
 app.UseHttpsRedirection();
 
