@@ -6,5 +6,10 @@ namespace Core.Specifications
     {
         Expression<Func<T, bool>> Criteria { get; }
         List<Expression<Func<T,object>>> Includes {get;set;}
+        Expression<Func<T,object>> OrderBy{get;set;}
+        Expression<Func<T,object>> OrderByDescending{get;set;}
+        int Skip{get;}
+        int Take{get;}
+        bool isPagingEnabled{get;}
     }
 }

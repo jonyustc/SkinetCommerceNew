@@ -1,6 +1,8 @@
+using Core.Entities;
+
 namespace API.Dtos
 {
-    public class ProductToReturnDto
+    public class ProductToReturnDto : BaseEntity
     {
         public string Name { get; set; }
         public string Description { get; set; }
