@@ -1,0 +1,18 @@
+<div class="container" *ngIf="product">
+    <div class="row">
+        <div class="col-6">
+            <img src="{{product.pictureUrl}}">
+        </div>
+        <div class="col-6 text-center text-sm-start">
+            <h2 class="pb-4">{{product.name}}</h2>
+            <div class="mb-3"><span class="fs-sm text-heading fw-medium me-1" id="colorOptionText">Price</span><span> {{product.price | currency}}</span></div>
+            
+            
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-outline-primary"><i class="fa fa-plus"></i></button>
+                <button type="button" class="btn btn-outline-primary"><i class="fa fa-minus"></i></button>
+                <button type="button" class="btn btn-outline-primary">Add To Cart</button>
+              </div>
+          </div>
+    </div>
+</div>

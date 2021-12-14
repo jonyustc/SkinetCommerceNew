@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+          <select class="form-select" aria-label=".form-select example" (change)="onSelectedChanged($event)">
+            <option *ngFor="let item of sortValues" value="{{item.value}}">{{item.name}}</option>
+          </select>
+            <h3>Brand</h3>
+            <ul class="list-group" *ngFor="let brand of brands">
+              <li class="list-group-item" [class.active]="productParams.brandId === brand.id" aria-current="true" (click)="onSelectedBrand(brand.id)">{{brand.name}}</li>
+             
+            </ul>
+              <h3>Type</h3>
+              <ul class="list-group" *ngFor="let type of types">
+                <li class="list-group-item" [class.active]="productParams.typeId === type.id" aria-current="true" (click)="onSelectedType(type.id)">{{type.name}}</li>
+              </ul>
+            </div>
+        <section class="col-9">
+          <div class="container">
+
+         
+          <div class="row gy-5">
+            <div class="col-6">
+              <header>
+                <p *ngIf="totalItems && totalItems > 0">Showing <strong>
+                  {{((productParams.pageIndex-1) * productParams.pageSize)+1}}-
+                  {{ productParams.pageSize * productParams.pageIndex > totalItems ? totalItems : 
+                    productParams.pageSize * productParams.pageIndex}}
+                </strong> 
+                   of <strong>{{totalItems}}</strong> results</p>
+
+                   <p *ngIf="totalItems ===0">There is no result matches</p>
+              </header>
+            </div>
+            <div class="col">
+              <div class="d-flex">
+                <input class="form-control me-2" (keyup.enter)="onSearched()" #search type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" (click)="onSearched()" type="submit">Search</button>
+                <button class="btn btn-outline-info" (click)="onReset()" type="submit">Reset</button>
+              </div>
+            </div>
+          </div>
+          
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+              
+                <div class="col" *ngFor="let item of products">
+                  <app-product-item [product]="item"></app-product-item>
+                </div>
+              
+            </div>
+
+           
+              <div class="row justify-content-center">
+                
+                <div class="col-6" *ngIf="totalItems > 0">
+                <app-pager [totalCount]="totalItems" [pageSize]="productParams.pageSize" (pageEvent)="addPageEvent($event)"></app-pager>
+                </div>
+               
+              </div>
+            
+            </div>
+                
+        </section>
+    </div>
+  </div>
