@@ -22,6 +22,5 @@ import { SharedModule } from '../shared/shared.module';
     ShopRoutingModule,
     SharedModule
   ],
-  exports:[ShopComponent,ProductDetailComponent]
 })
 export class ShopModule { }

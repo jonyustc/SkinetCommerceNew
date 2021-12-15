@@ -1,0 +1,10 @@
+<div class="container mt-5">
+    <h2>Internal Server Error</h2>
+    <ng-container *ngIf="errors">
+        <h2 class="">Code: {{ errors.statusCode }}</h2>
+        <p>Stack Trace</p>
+        <code>{{errors.details}}</code>
+    </ng-container>
+    
+
+</div>
