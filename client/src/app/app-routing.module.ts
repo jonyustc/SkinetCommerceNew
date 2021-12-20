@@ -8,12 +8,12 @@ import { ProductDetailComponent } from './shop/product-detail/product-detail.com
 import { ShopComponent } from './shop/shop.component';
 
 const routes: Routes = [
-  { path: '', component:HomeComponent },
-  { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m=>m.ShopModule) },
-  { path: 'error', component: ErrorComponent},
-  { path: 'server-error', component: ServerErrorComponent},
-  { path: 'notfound', component: NotFoundComponent},
-  { path: '**', redirectTo: '', pathMatch:'full'}
+  { path: '', component:HomeComponent,data:{breadcrumb:'Home'}},
+  { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m=>m.ShopModule),data:{breadcrumb:'Shop'} },
+  { path: 'error', component: ErrorComponent,data:{breadcrumb:'Test Errors'}},
+  { path: 'server-error', component: ServerErrorComponent,data:{breadcrumb:'Server Error'}},
+  { path: 'notfound', component: NotFoundComponent,data:{breadcrumb:'Not Found'}},
+  { path: '**', redirectTo: 'notfound', pathMatch:'full'}
 ];
 
 @NgModule({

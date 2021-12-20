@@ -8,10 +8,12 @@ using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string connStr = builder.Configuration.GetConnectionString("DefaultConnection");
+var multiplexer =  ConnectionMultiplexer.Connect(builder.Configuration["Redis"]);
 // Add services to the container.
 
 builder.Services.AddControllers()
@@ -54,7 +56,8 @@ builder.Services.AddCors(opt =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StoreContext>(x=>x.UseSqlServer(connStr));
-//builder.Services.AddSingleton<ILoggerFactory,LoggerFactory>();
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 
  builder.Services.AddApplicationServices();
 
