@@ -1,0 +1,23 @@
+<div *ngIf="(basketTotal$ |async) !== null">
+    <h3 class="d-flex justify-content-between">Order Summery</h3>
+    <ul class="list-group mb-3" *ngIf="(basketTotal$ | async) as total">
+      <li class="list-group-item d-flex justify-content-between lh-sm">
+        <div>
+          <h6 class="my-0">Sub Total</h6>
+        </div>
+        <strong>{{total.subtotal | currency}}</strong>
+      </li>
+      <li class="list-group-item d-flex justify-content-between lh-sm">
+        <div>
+          <h6 class="my-0">Shipping</h6>
+          <small class="text-muted">Not added actual shipping cost</small>
+        </div>
+        <strong>{{total.shipping | currency}}</strong>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span>Total (USD)</span>
+        <strong>{{total.total | currency}}</strong>
+      </li>
+    </ul>
+   
+  </div>

@@ -10,6 +10,8 @@ import { ShopComponent } from './shop/shop.component';
 const routes: Routes = [
   { path: '', component:HomeComponent,data:{breadcrumb:'Home'}},
   { path: 'shop', loadChildren: () => import('./shop/shop.module').then(m=>m.ShopModule),data:{breadcrumb:'Shop'} },
+  { path: 'basket', loadChildren: () => import('./basket/basket.module').then(m=>m.BasketModule),data:{breadcrumb:'Basket'} },
+  { path: 'checkout', loadChildren: () => import('./checkout/checkout.module').then(m=>m.CheckoutModule),data:{breadcrumb:'Checkout'} },
   { path: 'error', component: ErrorComponent,data:{breadcrumb:'Test Errors'}},
   { path: 'server-error', component: ServerErrorComponent,data:{breadcrumb:'Server Error'}},
   { path: 'notfound', component: NotFoundComponent,data:{breadcrumb:'Not Found'}},

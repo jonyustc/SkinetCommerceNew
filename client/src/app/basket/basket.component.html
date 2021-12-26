@@ -1,0 +1,52 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+          <div *ngIf="(basket$ | async) === null">
+            <h3>Basket is Empty</h3>
+          </div>
+            <table class="table"  *ngIf="(basket$ | async) as basket">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of basket.items;index as i">
+                    <th scope="row">{{i+1}}</th>
+                    <td>
+                      <div>
+                        <img src="{{item.pictureUrl}}" alt="{{item.productName}}" style="max-height: 50px;">
+                        <a routerLink="/shop/{{item.id}}"> 
+                          <span>{{item.productName}}</span>
+                        </a> 
+                        <p class="text-muted">Type:{{item.type}}, Brand {{item.brand}}</p>
+                      </div>
+                    
+                    </td>
+                    <td>{{item.price}}</td>
+                    <td>
+                        <span><i (click)="decrementBasketItem(item)" class="fa fa-minus"></i> </span>
+                        <span class="badge bg-success">{{item.quantity}}</span>
+                        <span><i (click)="incrementBasketItem(item)" class="fa fa-plus"></i> </span>
+                    </td>
+                    <td>
+                      {{item.quantity * item.price}}
+                    </td>
+                    <td><button (click)="removeBasketItem(item)" class="btn btn-outline-default"><i class="fa fa-trash"></i></button></td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+        </div>
+        <div class="col-3" *ngIf="(basket$ | async) !== null">
+          <app-order-summery></app-order-summery>
+          <button [routerLink]="['/checkout']"  class="btn btn-outline-primary btn-block">Checkout</button>
+        </div>
+    </div>
+</div>

@@ -14,6 +14,7 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
 import { BreadcrumbService } from 'xng-breadcrumb';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { BasketService } from './basket/basket.service';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
   providers: [
     {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptor,multi:true},
     {provide:HTTP_INTERCEPTORS,useClass:LoadingInterceptor,multi:true},
-    BreadcrumbService
+    BreadcrumbService,
+    BasketService
   ],
   bootstrap: [AppComponent]
 })

@@ -9,9 +9,10 @@
             
             
             <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn btn-outline-primary"><i class="fa fa-plus"></i></button>
-                <button type="button" class="btn btn-outline-primary"><i class="fa fa-minus"></i></button>
-                <button type="button" class="btn btn-outline-primary">Add To Cart</button>
+                <button type="button" (click)="incrementQuantity()" class="btn btn-outline-primary"><i class="fa fa-plus"></i></button>
+                <span class="badge bg-success">{{quantity}}</span>
+                <button type="button" (click)="decrementQuantity()" class="btn btn-outline-primary"><i class="fa fa-minus"></i></button>
+                <button (click)="productAddToCart()" type="button" class="btn btn-outline-primary">Add To Cart</button>
               </div>
           </div>
     </div>

@@ -8,7 +8,7 @@
       <div class="d-flex justify-content-between align-items-center">
         <div class="btn-group">
           <a [routerLink]="['/shop',product.id]"  type="button" class="btn btn-sm btn-outline-secondary">View</a>
-          <button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-shopping-cart"></i></button>
+          <button (click)="productAddToCart()" type="button" class="btn btn-sm btn-outline-secondary"><i class="fa fa-shopping-cart"></i></button>
         </div>
         <small class="text-muted">{{product.price | currency}}</small>
       </div>

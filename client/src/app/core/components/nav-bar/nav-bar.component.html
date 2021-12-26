@@ -10,7 +10,9 @@
         <div class="form-inline form-navbar my-2 my-lg-0 order-2">
          
              <span style="font-size: 2.3em;position: relative;">
-                <span class="navbar-tool-label">4</span><i class="fa fa-shopping-cart"></i>
+                <a [routerLink]="['/basket']">
+                  <span *ngIf="(basket$ | async) as basket"  class="navbar-tool-label">{{basket.items.length}}</span>
+                  <i class="fa fa-shopping-cart"></i></a> 
               </span> 
         </div>
         <ul class="navbar-nav mr-auto order-1">
