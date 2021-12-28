@@ -3,9 +3,12 @@ using API.Errors;
 using API.Extentions;
 using API.Helpers;
 using API.Middleware;
+using Core.Entities.Identity;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Data.Identity;
 using Infrastructure.Data.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -13,6 +16,7 @@ using StackExchange.Redis;
 var builder = WebApplication.CreateBuilder(args);
 
 string connStr = builder.Configuration.GetConnectionString("DefaultConnection");
+string identityConnStr = builder.Configuration.GetConnectionString("IdentityConnection");
 var multiplexer =  ConnectionMultiplexer.Connect(builder.Configuration["Redis"]);
 // Add services to the container.
 
@@ -57,9 +61,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StoreContext>(x=>x.UseSqlServer(connStr));
 
+builder.Services.AddDbContext<AppIdentityDbContext>(x=>x.UseSqlServer(identityConnStr));
+
 builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 
  builder.Services.AddApplicationServices();
+ builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -81,6 +88,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseStaticFiles();
@@ -95,6 +103,11 @@ using(var scope = app.Services.CreateScope())
     await context.Database.MigrateAsync();
     
     await StoreContextSeed.SeedAsync(context);
+
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+    await identityContext.Database.MigrateAsync();
+    await IdentityDbContextSeedData.IdentitySeedAsync(userManager);
 }
 
 app.Run();
