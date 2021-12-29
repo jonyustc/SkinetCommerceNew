@@ -50,6 +50,10 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
+            if(CheckEmailAlreadyExists(registerDto.Email).Result.Value == true){
+                return new BadRequestObjectResult(new ValidationErrorResponse{Errors=new[]{"Email Already Exists"}});
+            }
+
             var user = new AppUser
             {
                 Email = registerDto.Email,
