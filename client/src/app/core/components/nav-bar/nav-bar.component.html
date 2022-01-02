@@ -20,16 +20,64 @@
               [routerLinkActiveOptions]="{exact:true}">Home</a></li>
           <li class="nav-item"><a class="nav-link" [routerLink]="['/shop']" routerLinkActive="active">Shop</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="error">Contact</a></li>
-                        </ul>
-                        <ul class="navbar-nav d-none d-lg-flex ml-2 order-3">
-                              <li class="nav-item"><a class="nav-link" href="#">Sign in</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Sign up</a></li>
-          </ul>
-          <ul class="navbar-nav d-lg-none">
+        </ul>
+
+        <ng-container *ngIf="(currentUser$ | async) == null">
+          <ul class="navbar-nav d-none d-lg-flex ml-2 order-3">
+            <li class="nav-item"><a class="nav-link" [routerLink]="['/account/login']">Sign in</a></li>
+            <li class="nav-item"><a class="nav-link" [routerLink]="['/account/register']">Sign up</a></li>
+        </ul>
+        </ng-container>
+
+        <ng-container *ngIf="(currentUser$ | async)">
+
+     
+            <ul class="navbar-nav navbar-align d-none d-lg-flex ml-2 order-3">
+              <li class="nav-item dropdown" dropdown>
+               
+                <a class="nav-link dropdown-toggle d-none d-sm-inline-block" dropdownToggle aria-expanded="false">
+                  <span class="text-dark">Welcome {{(currentUser$ | async)?.displayName}}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" *dropdownMenu>
+                  <a class="dropdown-item" href="#">
+                    <i class="fa fa-user"></i> Profile
+                  </a>
+                  <a class="dropdown-item" href="#">
+                   <i class="fa fa-shopping-cart"></i> View Basket
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fa fa-shopping-cart"></i> View Orders
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" (click)="logout()">
+                   <i class="fa fa-sign-out"></i> Sign out
+                  </a>
+                </div>
+              </li>
+            </ul>
+          
+
+
+          <!-- <ul class="navbar-nav d-none d-lg-flex ml-2 order-3">
+            <li class="nav-item drowdown" dropdown>
+              <a class="nav-link drowdown-toggle" dropdownToggle>
+                <strong>Welcome {{(currentUser$ | async)?.displayName}}</strong>
+              </a>
+              <div class="dropdown-menu" *dropdownMenu>
+                <a class="dropdown-item" href="#">View Basket</a>
+                <a class="dropdown-item" href="#">View Orders</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Logout</a>
+              </div>
+            </li>
+        </ul> -->
+        </ng-container>
+       
+          <!-- <ul class="navbar-nav d-lg-none">
             <li class="nav-item-divider"></li>
-            <li class="nav-item"><a class="nav-link" href="#">Sign in</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Sign up</a></li>
-          </ul>
+            <li class="nav-item"><a class="nav-link" [routerLink]="['/account/login']">Sign in</a></li>
+            <li class="nav-item"><a class="nav-link" [routerLink]="['/account/register']">Sign up</a></li>
+          </ul> -->
                     </div>
     </div>
 </nav>

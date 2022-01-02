@@ -1,0 +1,32 @@
+<div class="form-floating  mb-4">
+    <input 
+        [ngClass]="{'is-invalid': (controlDir.control?.touched && 
+        controlDir.control?.errors?.required ||
+        controlDir.control?.errors?.pattern) ? true : false}"
+        [type]="type"
+        id="{{label}}" 
+        #input
+        (keyup)="onChange(target($event).value)"
+        (blur)="onTouched()"
+        class="form-control" 
+        placeholder="{{label}}"
+    >
+    <label for="floatingInput">{{label}}</label>
+
+    <div class="fa fa-spinner fa-spin loader" *ngIf="!controlDir.control?.valid && controlDir.control?.status === 'PENDING'">
+    </div>
+
+    <div class="invalid-feedback" *ngIf="!controlDir.control?.valid && controlDir.control?.touched">
+        <span *ngIf="controlDir.control?.errors?.required">{{label}} is Required</span>
+        <span *ngIf="controlDir.control?.errors?.pattern">{{label}} is Invalid</span>
+        <!-- <span *ngIf="controlDir.control?.errors?.emailExists">Email address is in use</span> -->
+    </div>
+
+    <div class="invalid-feedback d-block" *ngIf="(!controlDir.control?.valid &&
+    controlDir.control?.dirty)">
+       <span *ngIf="controlDir.control?.errors?.emailExists">Email address is in use</span>
+   </div>
+
+    <!-- <span class="text-danger" *ngIf="controlDir.control?.errors?.required && controlDir.control?.touched">{{label}} is Required</span>
+    <span class="text-danger" *ngIf="controlDir.control?.errors?.pattern && controlDir.control?.touched">{{label}} is Invalid</span> -->
+  </div>

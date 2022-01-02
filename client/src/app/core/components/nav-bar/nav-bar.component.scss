@@ -21,3 +21,12 @@ a{
     text-align: center;
     line-height: 1.25rem;
 }
+
+// The dropdown wrapper (`<div>`)
+.dropup,
+.dropright,
+.dropdown,
+.dropleft {
+  position: relative;
+}
+

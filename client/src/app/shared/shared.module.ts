@@ -4,19 +4,29 @@ import { PagerComponent } from './components/pager/pager.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { OrderSummeryComponent } from './components/order-summery/order-summery.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TextInputComponent } from './components/text-input/text-input.component';
 
 
 
 @NgModule({
   declarations: [
     PagerComponent,
-    OrderSummeryComponent
+    OrderSummeryComponent,
+    TextInputComponent
   ],
   imports: [
     CommonModule,
     PaginationModule.forRoot(),
     CarouselModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BsDropdownModule.forRoot()
   ],
-  exports:[PagerComponent,CarouselModule,OrderSummeryComponent]
+  exports:[
+    PagerComponent,CarouselModule,OrderSummeryComponent,FormsModule,ReactiveFormsModule,BsDropdownModule,
+    TextInputComponent
+  ]
 })
 export class SharedModule { }

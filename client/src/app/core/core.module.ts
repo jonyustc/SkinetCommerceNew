@@ -8,6 +8,7 @@ import { ServerErrorComponent } from './components/server-error/server-error.com
 import { HeaderComponent } from './components/header/header.component';
 
 import { BreadcrumbModule } from 'xng-breadcrumb';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -23,7 +24,8 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
   imports: [
     CommonModule,
     RouterModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    SharedModule
   ],
   exports:[NavBarComponent,HeaderComponent,BreadcrumbModule]
 })

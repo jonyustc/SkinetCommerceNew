@@ -15,6 +15,8 @@ import { BreadcrumbService } from 'xng-breadcrumb';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { BasketService } from './basket/basket.service';
+import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { TextInputComponent } from './shared/components/text-input/text-input.component';
 
 
 @NgModule({

@@ -30,17 +30,21 @@ export class ErrorInterceptor implements HttpInterceptor {
           if(error.status === 404){
             this.router.navigateByUrl('notfound');
           }
+
+          if(error.status === 401){
+            this.toastr.error(error.error.message,error.status);
+          }
           
           if(error.status === 400){
             if(error.error.errors){
-              var errors = error.error.errors;
+              //var errors = error.error.errors;
 
               //let navigationExtras:NavigationExtras = { state: errors};
 
               //this.router.navigateByUrl('error',navigationExtras);
 
               //this.toastr.error('Validation Error',error.status);
-              return throwError(errors);
+              return throwError(error);
             }
             else{
               this.toastr.error(error.error.message,error.status);
